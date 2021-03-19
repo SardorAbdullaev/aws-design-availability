@@ -1,0 +1,19 @@
+1. Minimum RTO for a single AZ outage
+
+According to https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html and https://aws.amazon.com/rds/sla/,
+I would say that minimum RTO is 60 seconds and it is fully handled by AWS RDS.
+
+2. Minimum RTO for a single region outage
+
+According to https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html promotion on the read-replica could take
+several minutes and it seems that our current setup doesn't cover cross regional failover. So I assume the scenario when we set up
+a human monitoring. In this case, I would say that it could take 40 minutes to detect the issue and initiate the remediation. And some extra
+minutes to promote the read-replica to master. So in total I would say 45 minutes.
+
+3. Minimum RPO for a single AZ outage
+
+Since we have point in time (minutes) recovery I assume it to be less than a minute.
+
+4. Minimum RPO for a single region outage
+
+Since we have read-replica of the DB in another region I suppose that RPO for a single region outage to be equal to a single AZ outage which is less than a minute.
